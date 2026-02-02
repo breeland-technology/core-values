@@ -8,28 +8,33 @@ import { Button } from "./ui";
 interface CardDeckProps {
   currentCard: ValueCardType | null;
   remainingCount: number;
-  onYes: () => void;
-  onNo: () => void;
+  onVeryImportant: () => void;
+  onSomewhatImportant: () => void;
+  onNotImportant: () => void;
 }
 
 export function CardDeck({
   currentCard,
   remainingCount,
-  onYes,
-  onNo,
+  onVeryImportant,
+  onSomewhatImportant,
+  onNotImportant,
 }: CardDeckProps) {
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
       if (!currentCard) return;
-      if (e.key === "y" || e.key === "Y" || e.key === "ArrowRight") {
+      if (e.key === "1" || e.key === "v" || e.key === "V") {
         e.preventDefault();
-        onYes();
-      } else if (e.key === "n" || e.key === "N" || e.key === "ArrowLeft") {
+        onVeryImportant();
+      } else if (e.key === "2" || e.key === "s" || e.key === "S") {
         e.preventDefault();
-        onNo();
+        onSomewhatImportant();
+      } else if (e.key === "3" || e.key === "n" || e.key === "N") {
+        e.preventDefault();
+        onNotImportant();
       }
     },
-    [currentCard, onYes, onNo]
+    [currentCard, onVeryImportant, onSomewhatImportant, onNotImportant]
   );
 
   useEffect(() => {
@@ -41,7 +46,10 @@ export function CardDeck({
     return (
       <div className="rounded-lg border border-stone-200 bg-surface-muted p-8 text-center text-stone-600 dark:border-stone-700 dark:text-stone-400">
         <p>No more cards to review.</p>
-        <p className="mt-1 text-sm">Add a custom value or continue to grouping.</p>
+        <p className="mt-1 text-sm">
+          Only Very important values go to the groups step. Add a custom value
+          or continue.
+        </p>
       </div>
     );
   }
@@ -51,32 +59,45 @@ export function CardDeck({
       <p className="text-center text-sm text-stone-500 dark:text-stone-400">
         {remainingCount} card{remainingCount !== 1 ? "s" : ""} left
       </p>
+      <p className="text-center text-sm font-medium text-stone-700 dark:text-stone-300">
+        How important is it for you to live by this value?
+      </p>
       <div className="flex justify-center">
         <div className="w-full max-w-sm">
           <ValueCard card={currentCard} variant="select" />
         </div>
       </div>
-      <div className="flex justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-3">
         <Button
           type="button"
           variant="secondary"
-          onClick={onNo}
-          className="min-w-[100px]"
-          aria-label="No, skip this value"
+          onClick={onVeryImportant}
+          className="min-w-[120px]"
+          aria-label="Very important"
         >
-          No
+          Very important
         </Button>
         <Button
           type="button"
-          onClick={onYes}
-          className="min-w-[100px]"
-          aria-label="Yes, keep this value"
+          variant="secondary"
+          onClick={onSomewhatImportant}
+          className="min-w-[120px]"
+          aria-label="Somewhat important"
         >
-          Yes
+          Somewhat important
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onNotImportant}
+          className="min-w-[120px]"
+          aria-label="Not important"
+        >
+          Not important
         </Button>
       </div>
       <p className="text-center text-xs text-stone-400 dark:text-stone-500">
-        Keyboard: Y / N or arrow keys
+        Keyboard: 1 / 2 / 3 or V / S / N
       </p>
     </div>
   );

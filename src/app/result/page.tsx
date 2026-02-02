@@ -69,7 +69,7 @@ export default function ResultPage() {
             </Button>
           </header>
           <p className="rounded-lg bg-amber-50 p-4 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200">
-            No piles yet. Complete the group and prioritize steps first.
+            No groups yet. Complete the group and prioritize steps first.
           </p>
           <Button onClick={() => router.push("/prioritize")}>
             Go to Prioritize

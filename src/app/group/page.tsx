@@ -63,7 +63,7 @@ export default function GroupPage() {
         ...prev.piles,
         {
           id: generatePileId(),
-          name: `Pile ${count + 1}`,
+          name: `Group ${count + 1}`,
           cardIds: [],
         },
       ],
@@ -136,9 +136,9 @@ export default function GroupPage() {
             for your health. Name each group in a way that makes sense to you.
           </p>
           <p className="text-sm text-stone-500 dark:text-stone-500">
-            Drag cards into a pile, create new piles with &quot;New pile,&quot;
-            and name each pile. You can move cards between piles or back to
-            Unassigned. Create at least one pile to continue.
+            Drag cards into a group, create new groups with &quot;New group,&quot;
+            and name each group. You can move cards between groups or back to
+            Unassigned. Create at least one group to continue.
           </p>
         </div>
 

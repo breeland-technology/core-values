@@ -21,16 +21,16 @@ function formatAsText(state: SessionState): string {
   const topPiles = getTopPiles(state);
   const lines: string[] = ["Values Card Sort – Results", ""];
 
-  lines.push("Top piles");
-  lines.push("--------");
+  lines.push("Top groups");
+  lines.push("-----------");
   topPiles.forEach((pile) => {
     const cards = resolveCards(state, pile.cardIds);
     lines.push(`${pile.name}: ${cards.map((c) => c.label).join(", ")}`);
   });
   lines.push("");
 
-  lines.push("All piles");
-  lines.push("---------");
+  lines.push("All groups");
+  lines.push("-----------");
   state.piles.forEach((pile) => {
     const cards = resolveCards(state, pile.cardIds);
     lines.push(`${pile.name}: ${cards.map((c) => c.label).join(", ")}`);
@@ -89,7 +89,7 @@ export function ResultSummary({ state }: ResultSummaryProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-medium">Top piles</h2>
+        <h2 className="mb-3 text-lg font-medium">Top groups</h2>
         <ul className="space-y-4">
           {topPiles.map((pile) => {
             const cards = resolveCards(state, pile.cardIds);
@@ -111,7 +111,7 @@ export function ResultSummary({ state }: ResultSummaryProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-medium">All piles</h2>
+        <h2 className="mb-3 text-lg font-medium">All groups</h2>
         <ul className="space-y-4">
           {state.piles.map((pile) => {
             const cards = resolveCards(state, pile.cardIds);

@@ -20,7 +20,7 @@ export function PrioritizePiles({
   return (
     <div className="space-y-4">
       <p className="text-xs text-stone-500 dark:text-stone-500">
-        Choose your top {MAX_TOP_PILES} piles. You can select up to{" "}
+        Choose your top {MAX_TOP_PILES} groups. You can select up to{" "}
         {MAX_TOP_PILES}.
       </p>
       <div className="flex flex-wrap gap-2">

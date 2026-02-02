@@ -23,7 +23,7 @@ export default function SelectPage() {
   const { state, hydrated, updateState, resetState } = useSessionState();
   const [showAddCustom, setShowAddCustom] = useState(false);
 
-  const handleYes = useCallback(() => {
+  const handleVeryImportant = useCallback(() => {
     if (!state) return;
     const current = getCurrentCard(state);
     if (!current) return;
@@ -33,7 +33,17 @@ export default function SelectPage() {
     }));
   }, [state, updateState]);
 
-  const handleNo = useCallback(() => {
+  const handleSomewhatImportant = useCallback(() => {
+    if (!state) return;
+    const current = getCurrentCard(state);
+    if (!current) return;
+    updateState((prev) => ({
+      ...prev,
+      discardedCardIds: [...prev.discardedCardIds, current.id],
+    }));
+  }, [state, updateState]);
+
+  const handleNotImportant = useCallback(() => {
     if (!state) return;
     const current = getCurrentCard(state);
     if (!current) return;
@@ -103,27 +113,30 @@ export default function SelectPage() {
 
         <div className="space-y-2">
           <p className="text-sm text-stone-600 dark:text-stone-400">
-            These are common values, not &quot;the right ones.&quot; Saying Yes
-            or No helps you get a first sense of what tends to matter to you.
+            These are common values, not &quot;the right ones.&quot; We&apos;re
+            asking how important it is for you to live by each one. Only values
+            you mark as &quot;Very important&quot; are carried to the groups
+            step.
           </p>
           <p className="text-sm text-stone-600 dark:text-stone-400">
             Some values may matter more in one part of life (e.g. family) than
             another (e.g. work)—that&apos;s fine; go with your gut for now.
           </p>
           <p className="text-sm text-stone-500 dark:text-stone-500">
-            Swipe or click Yes to keep a value, No to skip. You can add your own
-            values below.
+            Choose Very important, Somewhat important, or Not important. You can
+            add your own values below.
           </p>
         </div>
 
         <CardDeck
           currentCard={currentCard}
           remainingCount={remainingCount}
-          onYes={handleYes}
-          onNo={handleNo}
+          onVeryImportant={handleVeryImportant}
+          onSomewhatImportant={handleSomewhatImportant}
+          onNotImportant={handleNotImportant}
         />
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-stone-200 pt-6 dark:border-stone-700">
           <Button
             type="button"
             variant="ghost"
@@ -132,12 +145,18 @@ export default function SelectPage() {
           >
             Add your own value
           </Button>
+          <p className="text-xs text-stone-500 dark:text-stone-400">
+            {currentCard
+              ? "When you've finished the cards, you can continue below."
+              : "Continue to the next step when you're ready."}
+          </p>
           <Button
+            variant={!currentCard && canContinue ? "primary" : "ghost"}
             onClick={() => router.push("/group")}
             disabled={!canContinue}
-            className="min-w-[160px]"
+            className="min-w-[160px] self-start text-sm"
           >
-            Continue to Group ({selectedCount} selected)
+            Continue to Group ({selectedCount} very important)
           </Button>
         </div>
       </div>

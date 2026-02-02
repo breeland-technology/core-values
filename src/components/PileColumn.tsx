@@ -30,8 +30,8 @@ export function PileColumn({ pile, cards, onRename }: PileColumnProps) {
         value={pile.name}
         onChange={(e) => onRename(pile.id, e.target.value)}
         className="mb-3 w-full rounded border border-stone-200 bg-white px-2 py-1.5 text-sm font-medium text-stone-800 focus:outline-none focus:ring-2 focus:ring-teal-500 dark:border-stone-600 dark:bg-stone-700 dark:text-stone-100"
-        placeholder="Pile name"
-        aria-label={`Pile name: ${pile.name}`}
+        placeholder="Group name"
+        aria-label={`Group name: ${pile.name}`}
       />
       <div className="max-h-[50vh] min-h-[60px] space-y-2 overflow-y-auto">
         {cards.map((card) => (

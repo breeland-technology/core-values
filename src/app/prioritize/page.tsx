@@ -57,7 +57,7 @@ export default function PrioritizePage() {
             </Button>
           </header>
           <p className="rounded-lg bg-amber-50 p-4 text-amber-800 dark:bg-amber-950/50 dark:text-amber-200">
-            No piles yet. Go back to group values first.
+            No groups yet. Go back to group values first.
           </p>
           <Button onClick={() => router.push("/group")}>Go to Group</Button>
         </div>
@@ -87,9 +87,9 @@ export default function PrioritizePage() {
         </header>
 
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          Which of these groups feel most central to you right now? Pick up to{" "}
-          {MAX_TOP_PILES}. You&apos;re not ranking them—just marking the ones
-          that matter most.
+          Which of these groups feel most central to you right now? Choose up to{" "}
+          {MAX_TOP_PILES} groups—we suggest picking {MAX_TOP_PILES}. You&apos;re
+          not ranking them, just marking the ones that matter most.
         </p>
         <PrioritizePiles
           piles={state.piles}

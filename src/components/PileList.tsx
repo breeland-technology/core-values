@@ -1,8 +1,11 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import {
   DndContext,
   type DragEndEvent,
+  type DragStartEvent,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
@@ -13,6 +16,7 @@ import { resolveCards } from "@/lib/state-helpers";
 import type { ValueCard } from "@/lib/types";
 import { PileColumn } from "./PileColumn";
 import { DraggableCard } from "./DraggableCard";
+import { ValueCard as ValueCardComponent } from "./ValueCard";
 
 const POOL_ID = "pool";
 
@@ -66,29 +70,51 @@ export function PileList({
   onRenamePile,
   onAddPile,
 }: PileListProps) {
+  const [activeCard, setActiveCard] = useState<ValueCard | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
     })
   );
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
-    const cardId = String(active.id);
-    const targetId = String(over.id);
-    if (targetId === POOL_ID) {
-      onMoveCard(cardId, null);
-    } else {
-      onMoveCard(cardId, targetId);
-    }
-  };
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    const card = event.active.data.current?.card as ValueCard | undefined;
+    if (card) setActiveCard(card);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      setActiveCard(null);
+      if (!over) return;
+      const cardId = String(active.id);
+      const targetId = String(over.id);
+      if (targetId === POOL_ID) {
+        onMoveCard(cardId, null);
+      } else {
+        onMoveCard(cardId, targetId);
+      }
+    },
+    [onMoveCard]
+  );
 
   const unassignedIds = getUnassignedCardIds(state);
   const unassignedCards = resolveCards(state, unassignedIds);
 
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <DragOverlay dropAnimation={null}>
+        {activeCard ? (
+          <div className="cursor-grabbing rounded-lg border border-stone-200 bg-white shadow-lg dark:border-stone-700 dark:bg-stone-800">
+            <ValueCardComponent card={activeCard} variant="group" />
+          </div>
+        ) : null}
+      </DragOverlay>
       <div className="space-y-4">
         <div className="flex min-h-0 gap-4">
           {/* Left panel: Unassigned */}
@@ -98,9 +124,9 @@ export function PileList({
             </h3>
             <PoolDroppable cards={unassignedCards} />
           </div>
-          {/* Right panel: horizontally scrollable piles */}
-          <div className="min-w-0 flex-1 overflow-x-auto">
-            <div className="flex flex-nowrap gap-4 pb-2">
+          {/* Right panel: groups (wrap) */}
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap gap-4">
               {state.piles.map((pile) => (
                 <div
                   key={pile.id}
@@ -118,7 +144,7 @@ export function PileList({
                 onClick={onAddPile}
                 className="flex h-full min-h-[120px] min-w-[120px] flex-shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-stone-300 text-sm text-stone-600 hover:border-teal-500 hover:text-teal-600 dark:border-stone-600 dark:text-stone-400 dark:hover:border-teal-400 dark:hover:text-teal-400"
               >
-                + New pile
+                + New group
               </button>
             </div>
           </div>
