@@ -11,32 +11,32 @@ import {
   useSensors,
   useDroppable,
 } from "@dnd-kit/core";
-import type { SessionState, Pile } from "@/lib/types";
+import type { SessionState, Group } from "@/lib/types";
 import { resolveCards } from "@/lib/state-helpers";
 import type { ValueCard } from "@/lib/types";
-import { PileColumn } from "./PileColumn";
+import { GroupColumn } from "./GroupColumn";
 import { DraggableCard } from "./DraggableCard";
 import { ValueCard as ValueCardComponent } from "./ValueCard";
 
 const POOL_ID = "pool";
 
-function getCardIdsInPiles(piles: Pile[]): Set<string> {
+function getCardIdsInGroups(groups: Group[]): Set<string> {
   const set = new Set<string>();
-  piles.forEach((p) => p.cardIds.forEach((id) => set.add(id)));
+  groups.forEach((g) => g.cardIds.forEach((id) => set.add(id)));
   return set;
 }
 
 function getUnassignedCardIds(state: SessionState): string[] {
-  const inPiles = getCardIdsInPiles(state.piles);
-  return state.selectedCardIds.filter((id) => !inPiles.has(id));
+  const inGroups = getCardIdsInGroups(state.groups);
+  return state.selectedCardIds.filter((id) => !inGroups.has(id));
 }
 
-interface PileListProps {
+interface GroupListProps {
   state: SessionState;
-  onMoveCard: (cardId: string, targetPileId: string | null) => void;
-  onRenamePile: (pileId: string, name: string) => void;
-  onAddPile: () => void;
-  onRemovePile: (pileId: string) => void;
+  onMoveCard: (cardId: string, targetGroupId: string | null) => void;
+  onRenameGroup: (groupId: string, name: string) => void;
+  onAddGroup: () => void;
+  onRemoveGroup: (groupId: string) => void;
 }
 
 function PoolDroppable({ cards }: { cards: ValueCard[] }) {
@@ -65,13 +65,13 @@ function PoolDroppable({ cards }: { cards: ValueCard[] }) {
   );
 }
 
-export function PileList({
+export function GroupList({
   state,
   onMoveCard,
-  onRenamePile,
-  onAddPile,
-  onRemovePile,
-}: PileListProps) {
+  onRenameGroup,
+  onAddGroup,
+  onRemoveGroup,
+}: GroupListProps) {
   const [activeCard, setActiveCard] = useState<ValueCard | null>(null);
 
   const sensors = useSensors(
@@ -129,22 +129,22 @@ export function PileList({
           {/* Right panel: groups (wrap) */}
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap gap-4">
-              {state.piles.map((pile) => (
+              {state.groups.map((group) => (
                 <div
-                  key={pile.id}
+                  key={group.id}
                   className="w-[260px] min-w-[260px] flex-shrink-0"
                 >
-                  <PileColumn
-                    pile={pile}
-                    cards={resolveCards(state, pile.cardIds)}
-                    onRename={onRenamePile}
-                    onRemove={onRemovePile}
+                  <GroupColumn
+                    group={group}
+                    cards={resolveCards(state, group.cardIds)}
+                    onRename={onRenameGroup}
+                    onRemove={onRemoveGroup}
                   />
                 </div>
               ))}
               <button
                 type="button"
-                onClick={onAddPile}
+                onClick={onAddGroup}
                 className="flex min-h-[120px] w-[260px] min-w-[260px] flex-shrink-0 flex-col items-center justify-center rounded-lg border-2 border-dashed border-stone-300 bg-surface-muted p-4 text-sm text-stone-600 transition-colors hover:border-teal-500 hover:text-teal-600 dark:border-stone-600 dark:bg-stone-800/50 dark:text-stone-400 dark:hover:border-teal-400 dark:hover:text-teal-400"
               >
                 + New group

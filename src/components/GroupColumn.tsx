@@ -1,15 +1,15 @@
 "use client";
 
 import { useDroppable } from "@dnd-kit/core";
-import type { Pile } from "@/lib/types";
+import type { Group } from "@/lib/types";
 import type { ValueCard } from "@/lib/types";
 import { DraggableCard } from "./DraggableCard";
 
-interface PileColumnProps {
-  pile: Pile;
+interface GroupColumnProps {
+  group: Group;
   cards: ValueCard[];
-  onRename: (pileId: string, name: string) => void;
-  onRemove: (pileId: string) => void;
+  onRename: (groupId: string, name: string) => void;
+  onRemove: (groupId: string) => void;
 }
 
 function isDefaultName(name: string): boolean {
@@ -17,12 +17,12 @@ function isDefaultName(name: string): boolean {
   return trimmed === "" || /^Group \d+$/.test(trimmed);
 }
 
-export function PileColumn({ pile, cards, onRename, onRemove }: PileColumnProps) {
+export function GroupColumn({ group, cards, onRename, onRemove }: GroupColumnProps) {
   const { isOver, setNodeRef } = useDroppable({
-    id: pile.id,
+    id: group.id,
   });
 
-  const nameIsDefault = isDefaultName(pile.name);
+  const nameIsDefault = isDefaultName(group.name);
   const isEmpty = cards.length === 0;
 
   return (
@@ -37,22 +37,22 @@ export function PileColumn({ pile, cards, onRename, onRemove }: PileColumnProps)
       <div className="mb-3 flex items-center gap-2">
         <input
           type="text"
-          value={pile.name}
-          onChange={(e) => onRename(pile.id, e.target.value)}
+          value={group.name}
+          onChange={(e) => onRename(group.id, e.target.value)}
           className={`min-w-0 flex-1 rounded border border-stone-200 bg-white px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-500 dark:border-stone-600 dark:bg-stone-700 ${
             nameIsDefault
               ? "italic text-stone-400 placeholder-stone-400 dark:text-stone-500 dark:placeholder-stone-500"
               : "text-stone-800 dark:text-stone-100"
           }`}
           placeholder="Group name"
-          aria-label={`Group name: ${pile.name}`}
+          aria-label={`Group name: ${group.name}`}
         />
         {isEmpty && (
           <button
             type="button"
-            onClick={() => onRemove(pile.id)}
+            onClick={() => onRemove(group.id)}
             className="shrink-0 text-xs text-stone-400 opacity-0 transition-opacity hover:text-stone-600 focus:opacity-100 focus:outline-none group-hover:opacity-100 dark:text-stone-500 dark:hover:text-stone-300"
-            aria-label={`Remove ${pile.name}`}
+            aria-label={`Remove ${group.name}`}
           >
             Remove
           </button>

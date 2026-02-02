@@ -15,8 +15,8 @@ export default function Home() {
     hydrated &&
     state &&
     (state.selectedCardIds.length > 0 ||
-      state.piles.length > 0 ||
-      state.topPileIds.length > 0);
+      state.groups.length > 0 ||
+      state.topGroupIds.length > 0);
 
   const handleImportJson = useCallback(() => {
     fileInputRef.current?.click();

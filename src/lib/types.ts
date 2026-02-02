@@ -7,7 +7,7 @@ export interface ValueCard {
   tag?: string;
 }
 
-export interface Pile {
+export interface Group {
   id: string;
   name: string;
   cardIds: string[];
@@ -20,8 +20,8 @@ export interface SessionState {
   selectedCardIds: string[];
   discardedCardIds: string[];
   customCards: ValueCard[];
-  piles: Pile[];
-  topPileIds: string[];
+  groups: Group[];
+  topGroupIds: string[];
 }
 
 export interface CatalogValue {
@@ -43,7 +43,7 @@ export function createInitialSessionState(): SessionState {
     selectedCardIds: [],
     discardedCardIds: [],
     customCards: [],
-    piles: [],
-    topPileIds: [],
+    groups: [],
+    topGroupIds: [],
   };
 }

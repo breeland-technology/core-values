@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCallback } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
-import { PileList } from "@/components/PileList";
+import { GroupList } from "@/components/GroupList";
 import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
 
-function generatePileId(): string {
-  return `pile-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+function generateGroupId(): string {
+  return `group-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
 export default function GroupPage() {
@@ -17,64 +17,64 @@ export default function GroupPage() {
   const { state, hydrated, updateState, resetState } = useSessionState();
 
   const handleMoveCard = useCallback(
-    (cardId: string, targetPileId: string | null) => {
+    (cardId: string, targetGroupId: string | null) => {
       updateState((prev) => {
-        const removeFromPiles = (piles: { id: string; name: string; cardIds: string[] }[]) =>
-          piles.map((p) => ({
-            ...p,
-            cardIds: p.cardIds.filter((id) => id !== cardId),
+        const removeFromGroups = (groups: { id: string; name: string; cardIds: string[] }[]) =>
+          groups.map((g) => ({
+            ...g,
+            cardIds: g.cardIds.filter((id) => id !== cardId),
           }));
-        const addToPile = (
-          piles: { id: string; name: string; cardIds: string[] }[],
-          pileId: string
+        const addToGroup = (
+          groups: { id: string; name: string; cardIds: string[] }[],
+          groupId: string
         ) =>
-          piles.map((p) =>
-            p.id === pileId
-              ? { ...p, cardIds: [...p.cardIds, cardId] }
-              : p
+          groups.map((g) =>
+            g.id === groupId
+              ? { ...g, cardIds: [...g.cardIds, cardId] }
+              : g
           );
-        let nextPiles = removeFromPiles(prev.piles);
-        if (targetPileId) {
-          nextPiles = addToPile(nextPiles, targetPileId);
+        let nextGroups = removeFromGroups(prev.groups);
+        if (targetGroupId) {
+          nextGroups = addToGroup(nextGroups, targetGroupId);
         }
-        return { ...prev, piles: nextPiles };
+        return { ...prev, groups: nextGroups };
       });
     },
     [updateState]
   );
 
-  const handleRenamePile = useCallback(
-    (pileId: string, name: string) => {
+  const handleRenameGroup = useCallback(
+    (groupId: string, name: string) => {
       updateState((prev) => ({
         ...prev,
-        piles: prev.piles.map((p) =>
-          p.id === pileId ? { ...p, name } : p
+        groups: prev.groups.map((g) =>
+          g.id === groupId ? { ...g, name } : g
         ),
       }));
     },
     [updateState]
   );
 
-  const handleAddPile = useCallback(() => {
-    const count = state?.piles.length ?? 0;
+  const handleAddGroup = useCallback(() => {
+    const count = state?.groups.length ?? 0;
     updateState((prev) => ({
       ...prev,
-      piles: [
-        ...prev.piles,
+      groups: [
+        ...prev.groups,
         {
-          id: generatePileId(),
+          id: generateGroupId(),
           name: `Group ${count + 1}`,
           cardIds: [],
         },
       ],
     }));
-  }, [state?.piles.length, updateState]);
+  }, [state?.groups.length, updateState]);
 
-  const handleRemovePile = useCallback(
-    (pileId: string) => {
+  const handleRemoveGroup = useCallback(
+    (groupId: string) => {
       updateState((prev) => ({
         ...prev,
-        piles: prev.piles.filter((p) => p.id !== pileId),
+        groups: prev.groups.filter((g) => g.id !== groupId),
       }));
     },
     [updateState]
@@ -118,12 +118,12 @@ export default function GroupPage() {
     );
   }
 
-  const hasNonEmptyGroup = state.piles.some((p) => p.cardIds.length > 0);
+  const hasNonEmptyGroup = state.groups.some((g) => g.cardIds.length > 0);
   const canContinue = hasNonEmptyGroup;
 
   const showOneValueHint =
-    state.piles.length >= 3 &&
-    state.piles.filter((p) => p.cardIds.length === 1).length >= 2;
+    state.groups.length >= 3 &&
+    state.groups.filter((g) => g.cardIds.length === 1).length >= 2;
 
   return (
     <main className="min-h-screen p-6">
@@ -157,12 +157,12 @@ export default function GroupPage() {
           </p>
         )}
 
-        <PileList
+        <GroupList
           state={state}
           onMoveCard={handleMoveCard}
-          onRenamePile={handleRenamePile}
-          onAddPile={handleAddPile}
-          onRemovePile={handleRemovePile}
+          onRenameGroup={handleRenameGroup}
+          onAddGroup={handleAddGroup}
+          onRemoveGroup={handleRemoveGroup}
         />
 
         <div className="flex flex-col items-end gap-1">

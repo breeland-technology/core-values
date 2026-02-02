@@ -53,7 +53,7 @@ export default function ResultPage() {
     );
   }
 
-  if (state.piles.length === 0) {
+  if (state.groups.length === 0) {
     return (
       <main className="min-h-screen p-6">
         <div className="mx-auto max-w-lg space-y-6">

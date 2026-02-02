@@ -4,25 +4,25 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCallback } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
-import { PrioritizePiles } from "@/components/PrioritizePiles";
+import { PrioritizeGroups } from "@/components/PrioritizeGroups";
 import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
-import { MAX_TOP_PILES } from "@/lib/constants";
+import { MAX_TOP_GROUPS } from "@/lib/constants";
 
 export default function PrioritizePage() {
   const router = useRouter();
   const { state, hydrated, updateState, resetState } = useSessionState();
 
   const handleToggle = useCallback(
-    (pileId: string) => {
+    (groupId: string) => {
       updateState((prev) => {
-        const set = new Set(prev.topPileIds);
-        if (set.has(pileId)) {
-          set.delete(pileId);
-        } else if (set.size < MAX_TOP_PILES) {
-          set.add(pileId);
+        const set = new Set(prev.topGroupIds);
+        if (set.has(groupId)) {
+          set.delete(groupId);
+        } else if (set.size < MAX_TOP_GROUPS) {
+          set.add(groupId);
         }
-        return { ...prev, topPileIds: Array.from(set) };
+        return { ...prev, topGroupIds: Array.from(set) };
       });
     },
     [updateState]
@@ -41,7 +41,7 @@ export default function PrioritizePage() {
     );
   }
 
-  if (state.piles.length === 0) {
+  if (state.groups.length === 0) {
     return (
       <main className="min-h-screen p-6">
         <div className="mx-auto max-w-lg space-y-6">
@@ -65,7 +65,7 @@ export default function PrioritizePage() {
     );
   }
 
-  const canContinue = state.topPileIds.length >= 1;
+  const canContinue = state.topGroupIds.length >= 1;
 
   return (
     <main className="min-h-screen p-6">
@@ -88,12 +88,12 @@ export default function PrioritizePage() {
 
         <p className="text-sm text-stone-600 dark:text-stone-400">
           Which of these groups feel most central to you right now? Choose up to{" "}
-          {MAX_TOP_PILES} groups—we suggest picking {MAX_TOP_PILES}. You&apos;re
+          {MAX_TOP_GROUPS} groups—we suggest picking {MAX_TOP_GROUPS}. You&apos;re
           not ranking them, just marking the ones that matter most.
         </p>
-        <PrioritizePiles
-          piles={state.piles}
-          selectedPileIds={state.topPileIds}
+        <PrioritizeGroups
+          groups={state.groups}
+          selectedGroupIds={state.topGroupIds}
           onToggle={handleToggle}
         />
 
