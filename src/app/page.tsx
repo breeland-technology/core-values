@@ -21,10 +21,16 @@ export default function Home() {
         <h1 className="text-2xl font-medium text-stone-800 dark:text-stone-100">
           Values Card Sort
         </h1>
-        <p className="text-stone-600 dark:text-stone-400">
-          Clarify and reflect on what matters to you. Swipe or click through
-          value cards, then group and prioritize.
-        </p>
+        <div className="space-y-2 text-stone-600 dark:text-stone-400">
+          <p>
+            Clarify and reflect on what matters to you. Swipe or click through
+            value cards, then group and prioritize.
+          </p>
+          <p className="text-sm">
+            This exercise helps you notice which values tend to matter most to
+            you—there are no right answers.
+          </p>
+        </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Button
             onClick={() => router.push("/select")}

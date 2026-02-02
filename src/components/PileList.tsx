@@ -40,7 +40,7 @@ function PoolDroppable({ cards }: { cards: ValueCard[] }) {
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-[120px] rounded-lg border-2 border-dashed p-4 transition-colors ${
+      className={`min-h-[120px] max-h-[60vh] overflow-y-auto rounded-lg border-2 border-dashed p-4 transition-colors ${
         isOver
           ? "border-teal-500 bg-teal-50/50 dark:border-teal-400 dark:bg-teal-950/30"
           : "border-stone-300 bg-surface-muted dark:border-stone-600 dark:bg-stone-800/50"
@@ -89,31 +89,40 @@ export function PileList({
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="space-y-6">
-        <div className="flex flex-wrap gap-4">
-          <div className="min-w-[200px] max-w-[280px]">
+      <div className="space-y-4">
+        <div className="flex min-h-0 gap-4">
+          {/* Left panel: Unassigned */}
+          <div className="flex w-64 min-w-[240px] flex-shrink-0 flex-col">
             <h3 className="mb-2 text-sm font-medium text-stone-600 dark:text-stone-400">
               Unassigned
             </h3>
             <PoolDroppable cards={unassignedCards} />
           </div>
-          {state.piles.map((pile) => (
-            <div key={pile.id} className="min-w-[200px] max-w-[280px]">
-              <PileColumn
-                pile={pile}
-                cards={resolveCards(state, pile.cardIds)}
-                onRename={onRenamePile}
-              />
+          {/* Right panel: horizontally scrollable piles */}
+          <div className="min-w-0 flex-1 overflow-x-auto">
+            <div className="flex flex-nowrap gap-4 pb-2">
+              {state.piles.map((pile) => (
+                <div
+                  key={pile.id}
+                  className="w-[260px] min-w-[260px] flex-shrink-0"
+                >
+                  <PileColumn
+                    pile={pile}
+                    cards={resolveCards(state, pile.cardIds)}
+                    onRename={onRenamePile}
+                  />
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={onAddPile}
+                className="flex h-full min-h-[120px] min-w-[120px] flex-shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-stone-300 text-sm text-stone-600 hover:border-teal-500 hover:text-teal-600 dark:border-stone-600 dark:text-stone-400 dark:hover:border-teal-400 dark:hover:text-teal-400"
+              >
+                + New pile
+              </button>
             </div>
-          ))}
+          </div>
         </div>
-        <button
-          type="button"
-          onClick={onAddPile}
-          className="rounded-lg border-2 border-dashed border-stone-300 px-4 py-2 text-sm text-stone-600 hover:border-teal-500 hover:text-teal-600 dark:border-stone-600 dark:text-stone-400 dark:hover:border-teal-400 dark:hover:text-teal-400"
-        >
-          + New pile
-        </button>
       </div>
     </DndContext>
   );

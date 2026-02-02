@@ -19,7 +19,7 @@ export function PileColumn({ pile, cards, onRename }: PileColumnProps) {
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-[120px] w-full min-w-[200px] max-w-[280px] rounded-lg border-2 border-dashed p-4 transition-colors ${
+      className={`flex min-h-[120px] w-full min-w-[260px] max-w-[260px] flex-col rounded-lg border-2 border-dashed p-4 transition-colors ${
         isOver
           ? "border-teal-500 bg-teal-50/50 dark:border-teal-400 dark:bg-teal-950/30"
           : "border-stone-300 bg-surface-muted dark:border-stone-600 dark:bg-stone-800/50"
@@ -33,7 +33,7 @@ export function PileColumn({ pile, cards, onRename }: PileColumnProps) {
         placeholder="Pile name"
         aria-label={`Pile name: ${pile.name}`}
       />
-      <div className="space-y-2">
+      <div className="max-h-[50vh] min-h-[60px] space-y-2 overflow-y-auto">
         {cards.map((card) => (
           <DraggableCard key={card.id} card={card} />
         ))}

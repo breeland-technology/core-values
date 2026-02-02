@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useRef } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
 import { ResultSummary } from "@/components/ResultSummary";
+import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
 import { importStateJSON } from "@/lib/storage";
 
@@ -81,34 +82,37 @@ export default function ResultPage() {
   return (
     <main className="min-h-screen p-6">
       <div className="mx-auto max-w-2xl space-y-6">
-        <header className="flex items-center justify-between gap-4">
-          <Link
-            href="/prioritize"
-            className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
-          >
-            Back
-          </Link>
-          <h1 className="text-lg font-medium">Results</h1>
-          <div className="flex gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json,application/json"
-              className="hidden"
-              onChange={handleFileChange}
-              aria-hidden
-            />
-            <Button
-              variant="ghost"
-              onClick={handleImportJson}
-              className="text-sm"
+        <header className="flex flex-col gap-1">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/prioritize"
+              className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
             >
-              Import JSON
-            </Button>
-            <Button variant="ghost" onClick={handleReset} className="text-sm">
-              Reset
-            </Button>
+              Back
+            </Link>
+            <h1 className="text-lg font-medium">Results</h1>
+            <div className="flex gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json,application/json"
+                className="hidden"
+                onChange={handleFileChange}
+                aria-hidden
+              />
+              <Button
+                variant="ghost"
+                onClick={handleImportJson}
+                className="text-sm"
+              >
+                Import JSON
+              </Button>
+              <Button variant="ghost" onClick={handleReset} className="text-sm">
+                Reset
+              </Button>
+            </div>
           </div>
+          <StepIndicator step={4} />
         </header>
 
         <ResultSummary state={state} />

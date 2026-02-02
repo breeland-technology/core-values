@@ -10,6 +10,7 @@ import {
 } from "@/lib/state-helpers";
 import { CardDeck } from "@/components/CardDeck";
 import { AddCustomValue } from "@/components/AddCustomValue";
+import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
 import type { ValueCard } from "@/lib/types";
 
@@ -79,15 +80,16 @@ export default function SelectPage() {
   return (
     <main className="min-h-screen p-6">
       <div className="mx-auto max-w-lg space-y-6">
-        <header className="flex items-center justify-between gap-4">
-          <Link
-            href="/"
-            className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
-          >
-            Back
-          </Link>
-          <h1 className="text-lg font-medium">Select values</h1>
-          <Button
+        <header className="flex flex-col gap-1">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/"
+              className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
+            >
+              Back
+            </Link>
+            <h1 className="text-lg font-medium">Select values</h1>
+            <Button
             type="button"
             variant="ghost"
             onClick={handleReset}
@@ -95,12 +97,24 @@ export default function SelectPage() {
           >
             Reset
           </Button>
+          </div>
+          <StepIndicator step={1} />
         </header>
 
-        <p className="text-sm text-stone-600 dark:text-stone-400">
-          Swipe or click Yes to keep a value, No to skip. You can add your own
-          values below.
-        </p>
+        <div className="space-y-2">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            These are common values, not &quot;the right ones.&quot; Saying Yes
+            or No helps you get a first sense of what tends to matter to you.
+          </p>
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            Some values may matter more in one part of life (e.g. family) than
+            another (e.g. work)—that&apos;s fine; go with your gut for now.
+          </p>
+          <p className="text-sm text-stone-500 dark:text-stone-500">
+            Swipe or click Yes to keep a value, No to skip. You can add your own
+            values below.
+          </p>
+        </div>
 
         <CardDeck
           currentCard={currentCard}

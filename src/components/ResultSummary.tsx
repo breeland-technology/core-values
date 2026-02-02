@@ -67,6 +67,27 @@ export function ResultSummary({ state }: ResultSummaryProps) {
 
   return (
     <div className="space-y-8">
+      <section className="space-y-3 rounded-lg border border-stone-200 bg-surface-muted p-4 dark:border-stone-700 dark:bg-stone-800/50">
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Here&apos;s a snapshot of the values and themes that matter most to you
+          right now.
+        </p>
+        <ul className="list-inside list-disc space-y-1 text-sm text-stone-600 dark:text-stone-400">
+          <li>
+            When you face a decision, you might ask: which option best fits
+            these values?
+          </li>
+          <li>
+            You can return to this page anytime; your answers are saved in this
+            browser.
+          </li>
+          <li>
+            If you&apos;d like to refine your choices, use Back to revisit a
+            step, or Reset to start over.
+          </li>
+        </ul>
+      </section>
+
       <section>
         <h2 className="mb-3 text-lg font-medium">Top piles</h2>
         <ul className="space-y-4">

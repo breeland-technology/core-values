@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
 import { PileList } from "@/components/PileList";
+import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
 
 function generatePileId(): string {
@@ -112,23 +113,34 @@ export default function GroupPage() {
   return (
     <main className="min-h-screen p-6">
       <div className="mx-auto max-w-4xl space-y-6">
-        <header className="flex items-center justify-between gap-4">
-          <Link
-            href="/select"
-            className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
-          >
-            Back
-          </Link>
-          <h1 className="text-lg font-medium">Group values</h1>
-          <Button variant="ghost" onClick={handleReset} className="text-sm">
-            Reset
-          </Button>
+        <header className="flex flex-col gap-1">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/select"
+              className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
+            >
+              Back
+            </Link>
+            <h1 className="text-lg font-medium">Group values</h1>
+            <Button variant="ghost" onClick={handleReset} className="text-sm">
+              Reset
+            </Button>
+          </div>
+          <StepIndicator step={2} />
         </header>
 
-        <p className="text-sm text-stone-600 dark:text-stone-400">
-          Drag cards into piles and name each pile. Create at least one pile to
-          continue.
-        </p>
+        <div className="space-y-2">
+          <p className="text-sm text-stone-600 dark:text-stone-400">
+            Grouping helps you see themes or areas of life. For example, you
+            might group values that matter most at work, in relationships, or
+            for your health. Name each group in a way that makes sense to you.
+          </p>
+          <p className="text-sm text-stone-500 dark:text-stone-500">
+            Drag cards into a pile, create new piles with &quot;New pile,&quot;
+            and name each pile. You can move cards between piles or back to
+            Unassigned. Create at least one pile to continue.
+          </p>
+        </div>
 
         <PileList
           state={state}

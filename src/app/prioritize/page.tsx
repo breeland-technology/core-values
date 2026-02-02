@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
 import { PrioritizePiles } from "@/components/PrioritizePiles";
+import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
 import { MAX_TOP_PILES } from "@/lib/constants";
 
@@ -69,19 +70,27 @@ export default function PrioritizePage() {
   return (
     <main className="min-h-screen p-6">
       <div className="mx-auto max-w-2xl space-y-6">
-        <header className="flex items-center justify-between gap-4">
-          <Link
-            href="/group"
-            className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
-          >
-            Back
-          </Link>
-          <h1 className="text-lg font-medium">Prioritize</h1>
-          <Button variant="ghost" onClick={handleReset} className="text-sm">
-            Reset
-          </Button>
+        <header className="flex flex-col gap-1">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/group"
+              className="text-sm text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200"
+            >
+              Back
+            </Link>
+            <h1 className="text-lg font-medium">Prioritize</h1>
+            <Button variant="ghost" onClick={handleReset} className="text-sm">
+              Reset
+            </Button>
+          </div>
+          <StepIndicator step={3} />
         </header>
 
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Which of these groups feel most central to you right now? Pick up to{" "}
+          {MAX_TOP_PILES}. You&apos;re not ranking them—just marking the ones
+          that matter most.
+        </p>
         <PrioritizePiles
           piles={state.piles}
           selectedPileIds={state.topPileIds}
