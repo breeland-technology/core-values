@@ -2,43 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useSessionState } from "@/hooks/useSessionState";
 import { ResultSummary } from "@/components/ResultSummary";
 import { StepIndicator } from "@/components/StepIndicator";
 import { Button } from "@/components/ui";
-import { importStateJSON } from "@/lib/storage";
 
 export default function ResultPage() {
   const router = useRouter();
-  const { state, hydrated, resetState, replaceState } = useSessionState();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImportJson = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleFileChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const json = String(reader.result);
-          const imported = importStateJSON(json);
-          if (imported) {
-            replaceState(imported);
-          }
-        } catch {
-          // ignore invalid file
-        }
-        e.target.value = "";
-      };
-      reader.readAsText(file);
-    },
-    [replaceState]
-  );
+  const { state, hydrated, resetState } = useSessionState();
 
   const handleReset = useCallback(() => {
     resetState();
@@ -91,26 +63,9 @@ export default function ResultPage() {
               Back
             </Link>
             <h1 className="text-lg font-medium">Results</h1>
-            <div className="flex gap-2">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".json,application/json"
-                className="hidden"
-                onChange={handleFileChange}
-                aria-hidden
-              />
-              <Button
-                variant="ghost"
-                onClick={handleImportJson}
-                className="text-sm"
-              >
-                Import JSON
-              </Button>
-              <Button variant="ghost" onClick={handleReset} className="text-sm">
-                Reset
-              </Button>
-            </div>
+            <Button variant="ghost" onClick={handleReset} className="text-sm">
+              Reset
+            </Button>
           </div>
           <StepIndicator step={4} />
         </header>

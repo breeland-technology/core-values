@@ -86,7 +86,7 @@ export function ResultSummary({ state }: ResultSummaryProps) {
         </ul>
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-3 text-center">
         <p className="mb-12 text-base font-semibold text-stone-600 dark:text-stone-400">
           There&apos;s nothing you need to do with this right now.
         </p>
@@ -98,14 +98,14 @@ export function ResultSummary({ state }: ResultSummaryProps) {
         </p>
       </section>
 
-      <p className="text-xs text-stone-500 dark:text-stone-400">
+      <p className="text-center text-xs text-stone-500 dark:text-stone-400">
         You can return to this page anytime — your answers are saved in this
         browser.
         <br />
         Use Back to revisit a step, or Reset to start over.
       </p>
 
-      <section className="flex flex-wrap gap-3">
+      <section className="flex flex-wrap justify-center gap-3">
         <Button onClick={handleExportJson}>Export JSON</Button>
         <Button variant="secondary" onClick={handleCopyText}>
           {copied ? "Copied" : "Copy summary"}
