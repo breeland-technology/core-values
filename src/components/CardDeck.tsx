@@ -56,11 +56,8 @@ export function CardDeck({
 
   return (
     <div className="space-y-6">
-      <p className="text-center text-sm text-stone-500 dark:text-stone-400">
-        {remainingCount} card{remainingCount !== 1 ? "s" : ""} left
-      </p>
       <p className="text-center text-sm font-medium text-stone-700 dark:text-stone-300">
-        How important is it for you to live by this value?
+        How important is it for you to live by this value right now?
       </p>
       <div className="flex justify-center">
         <div className="w-full max-w-sm">
@@ -96,9 +93,12 @@ export function CardDeck({
           Not important
         </Button>
       </div>
-      <p className="text-center text-xs text-stone-400 dark:text-stone-500">
-        Keyboard: 1 / 2 / 3 or V / S / N
-      </p>
+      <div className="space-y-1 text-center text-xs text-stone-400 dark:text-stone-500">
+        <p>
+          {remainingCount} card{remainingCount !== 1 ? "s" : ""} left
+        </p>
+        <p>Keyboard: 1 / 2 / 3 or V / S / N</p>
+      </div>
     </div>
   );
 }

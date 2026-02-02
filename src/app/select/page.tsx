@@ -85,7 +85,7 @@ export default function SelectPage() {
   const currentCard = getCurrentCard(state);
   const remainingCount = getRemainingCount(state);
   const selectedCount = state.selectedCardIds.length;
-  const canContinue = selectedCount > 0;
+  const canContinue = selectedCount >= 3;
 
   return (
     <main className="min-h-screen p-6">
@@ -112,19 +112,15 @@ export default function SelectPage() {
         </header>
 
         <div className="space-y-2">
-          <p className="text-sm text-stone-600 dark:text-stone-400">
-            These are common values, not &quot;the right ones.&quot; We&apos;re
-            asking how important it is for you to live by each one. Only values
-            you mark as &quot;Very important&quot; are carried to the groups
-            step.
+          <p className="text-sm font-bold text-stone-600 dark:text-stone-400">
+            Here are some common values.
           </p>
           <p className="text-sm text-stone-600 dark:text-stone-400">
-            Some values may matter more in one part of life (e.g. family) than
-            another (e.g. work)—that&apos;s fine; go with your gut for now.
+            For each one, choose how important it is for you to live by this
+            value, based on what feels true for you right now.
           </p>
-          <p className="text-sm text-stone-500 dark:text-stone-500">
-            Choose Very important, Somewhat important, or Not important. You can
-            add your own values below.
+          <p className="text-sm italic text-stone-600 dark:text-stone-400">
+            There&apos;s no correct way to do this — go with your gut.
           </p>
         </div>
 
@@ -136,27 +132,23 @@ export default function SelectPage() {
           onNotImportant={handleNotImportant}
         />
 
-        <div className="flex flex-col gap-4 border-t border-stone-200 pt-6 dark:border-stone-700">
+        <div className="flex flex-col items-center gap-4 border-t border-stone-200 pt-6 dark:border-stone-700">
           <Button
             type="button"
             variant="ghost"
             onClick={() => setShowAddCustom(true)}
-            className="text-sm"
+            className="flex flex-col items-center gap-0.5 text-sm"
           >
             Add your own value
+            <span className="text-xs italic text-stone-400 dark:text-stone-500">(optional)</span>
           </Button>
-          <p className="text-xs text-stone-500 dark:text-stone-400">
-            {currentCard
-              ? "When you've finished the cards, you can continue below."
-              : "Continue to the next step when you're ready."}
-          </p>
           <Button
             variant={!currentCard && canContinue ? "primary" : "ghost"}
             onClick={() => router.push("/group")}
             disabled={!canContinue}
-            className="min-w-[160px] self-start text-sm"
+            className="min-w-[160px] text-sm"
           >
-            Continue to Group ({selectedCount} very important)
+            Continue to Group ({selectedCount} selected)
           </Button>
         </div>
       </div>
