@@ -49,16 +49,17 @@ export default function Home() {
       <div className="flex flex-1 flex-col items-center justify-center p-6">
         <div className="mx-auto max-w-md space-y-8 text-center">
           <h1 className="text-2xl font-medium text-stone-800 dark:text-stone-100">
-            Values Card Sort
+            Clarifying Your Values
           </h1>
-          <div className="space-y-2 text-stone-600 dark:text-stone-400">
+          <div className="space-y-3 text-stone-600 dark:text-stone-400">
             <p>
-              Clarify and reflect on what matters to you. Swipe or click through
-              value cards, then group and prioritize.
+              A short, self-guided exercise to help you reflect on what matters
+              to you.
             </p>
-            <p className="text-sm">
-              This exercise helps you notice which values tend to matter most to
-              you—there are no right answers.
+            <p>
+              You&apos;ll explore a set of values, make a few thoughtful
+              choices, and notice which directions feel most important right
+              now.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -80,14 +81,13 @@ export default function Home() {
           onChange={handleFileChange}
           aria-hidden
         />
-        <Button
+        <button
           type="button"
-          variant="ghost"
           onClick={handleImportJson}
-          className="text-sm text-stone-500 dark:text-stone-400"
+          className="text-xs text-stone-400 hover:text-stone-600 focus:outline-none focus:underline dark:text-stone-500 dark:hover:text-stone-300"
         >
-          Import from JSON
-        </Button>
+          Restore a previous session
+        </button>
       </div>
     </main>
   );
