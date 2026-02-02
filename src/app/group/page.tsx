@@ -70,6 +70,16 @@ export default function GroupPage() {
     }));
   }, [state?.piles.length, updateState]);
 
+  const handleRemovePile = useCallback(
+    (pileId: string) => {
+      updateState((prev) => ({
+        ...prev,
+        piles: prev.piles.filter((p) => p.id !== pileId),
+      }));
+    },
+    [updateState]
+  );
+
   const handleReset = useCallback(() => {
     resetState();
     router.push("/");
@@ -108,7 +118,12 @@ export default function GroupPage() {
     );
   }
 
-  const canContinue = state.piles.length > 0;
+  const hasNonEmptyGroup = state.piles.some((p) => p.cardIds.length > 0);
+  const canContinue = hasNonEmptyGroup;
+
+  const showOneValueHint =
+    state.piles.length >= 3 &&
+    state.piles.filter((p) => p.cardIds.length === 1).length >= 2;
 
   return (
     <main className="min-h-screen p-6">
@@ -129,27 +144,33 @@ export default function GroupPage() {
           <StepIndicator step={2} />
         </header>
 
-        <div className="space-y-2">
-          <p className="text-sm text-stone-600 dark:text-stone-400">
-            Grouping helps you see themes or areas of life. For example, you
-            might group values that matter most at work, in relationships, or
-            for your health. Name each group in a way that makes sense to you.
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          Group values that feel related in a way that makes sense to you. You
+          can create new groups, move values between them, or leave some
+          unassigned.
+        </p>
+
+        {showOneValueHint && (
+          <p className="text-xs text-stone-400 dark:text-stone-500">
+            If it helps, you can group values that feel connected or point in a
+            similar direction.
           </p>
-          <p className="text-sm text-stone-500 dark:text-stone-500">
-            Drag cards into a group, create new groups with &quot;New group,&quot;
-            and name each group. You can move cards between groups or back to
-            Unassigned. Create at least one group to continue.
-          </p>
-        </div>
+        )}
 
         <PileList
           state={state}
           onMoveCard={handleMoveCard}
           onRenamePile={handleRenamePile}
           onAddPile={handleAddPile}
+          onRemovePile={handleRemovePile}
         />
 
-        <div className="flex justify-end">
+        <div className="flex flex-col items-end gap-1">
+          {!canContinue && (
+            <p className="text-xs text-stone-400 dark:text-stone-500">
+              Create at least one group to continue.
+            </p>
+          )}
           <Button
             onClick={() => router.push("/prioritize")}
             disabled={!canContinue}
