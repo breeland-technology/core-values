@@ -87,9 +87,9 @@ export default function PrioritizePage() {
         </header>
 
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          Which of these groups feel most central to you right now? Choose up to{" "}
-          {MAX_TOP_GROUPS} groups—we suggest picking {MAX_TOP_GROUPS}. You&apos;re
-          not ranking them, just marking the ones that matter most.
+          Which of these groups feel most central to you right now?
+          <br />
+          Choose up to {MAX_TOP_GROUPS} that matter most at this moment.
         </p>
         <PrioritizeGroups
           groups={state.groups}
@@ -97,11 +97,16 @@ export default function PrioritizePage() {
           onToggle={handleToggle}
         />
 
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end gap-3">
+          <p className="min-w-[14rem] text-right text-xs text-stone-400 dark:text-stone-500">
+            {canContinue
+              ? `Selected: ${state.topGroupIds.length} of ${MAX_TOP_GROUPS}`
+              : "Select at least one group to continue."}
+          </p>
           <Button
             onClick={() => router.push("/result")}
             disabled={!canContinue}
-            className="min-w-[160px]"
+            className="min-h-[2.75rem] min-w-[160px]"
           >
             See results
           </Button>

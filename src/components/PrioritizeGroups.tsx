@@ -19,9 +19,8 @@ export function PrioritizeGroups({
 
   return (
     <div className="space-y-4">
-      <p className="text-xs text-stone-500 dark:text-stone-500">
-        Choose your top {MAX_TOP_GROUPS} groups. You can select up to{" "}
-        {MAX_TOP_GROUPS}.
+      <p className="text-xs text-stone-400 dark:text-stone-500">
+        You&apos;re not ranking them—just marking what matters most.
       </p>
       <div className="flex flex-wrap gap-2">
         {groups.map((group) => {
@@ -34,20 +33,22 @@ export function PrioritizeGroups({
               onClick={() => !disabled && onToggle(group.id)}
               disabled={disabled}
               aria-pressed={selected}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1.5 ${
                 selected
-                  ? "bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
+                  ? "bg-stone-700 text-white border-2 border-stone-600 hover:bg-stone-600 dark:bg-stone-600 dark:border-stone-500 dark:hover:bg-stone-500"
                   : "bg-stone-200 text-stone-800 hover:bg-stone-300 dark:bg-stone-600 dark:text-stone-100 dark:hover:bg-stone-500"
               }`}
             >
+              {selected && (
+                <span className="text-[0.65rem] opacity-90" aria-hidden>
+                  ✓
+                </span>
+              )}
               {group.name}
             </button>
           );
         })}
       </div>
-      <p className="text-xs text-stone-500 dark:text-stone-400">
-        {set.size} of {MAX_TOP_GROUPS} selected
-      </p>
     </div>
   );
 }
