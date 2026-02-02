@@ -87,9 +87,9 @@ export default function PrioritizePage() {
         </header>
 
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          Which of these groups feel most central to you right now?
+          Which of these groups (or themes) feel most central to you right now?
           <br />
-          Choose up to {MAX_TOP_GROUPS} that matter most at this moment.
+          Choose up to {MAX_TOP_GROUPS} that feel most central at this moment.
         </p>
         <PrioritizeGroups
           groups={state.groups}

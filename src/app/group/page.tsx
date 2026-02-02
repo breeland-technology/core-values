@@ -63,7 +63,7 @@ export default function GroupPage() {
         ...prev.groups,
         {
           id: generateGroupId(),
-          name: `Group ${count + 1}`,
+          name: `Theme ${count + 1}`,
           cardIds: [],
         },
       ],
@@ -148,6 +148,10 @@ export default function GroupPage() {
           Group values that feel related in a way that makes sense to you. You
           can create new groups, move values between them, or leave some
           unassigned.
+        </p>
+        <p className="text-sm italic text-stone-500 dark:text-stone-400">
+          These groups often point toward broader themes about what matters to
+          you.
         </p>
 
         {showOneValueHint && (

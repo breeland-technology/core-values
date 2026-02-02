@@ -14,7 +14,7 @@ interface GroupColumnProps {
 
 function isDefaultName(name: string): boolean {
   const trimmed = name.trim();
-  return trimmed === "" || /^Group \d+$/.test(trimmed);
+  return trimmed === "" || /^Theme \d+$/.test(trimmed);
 }
 
 export function GroupColumn({ group, cards, onRename, onRemove }: GroupColumnProps) {
